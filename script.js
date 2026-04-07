@@ -90,11 +90,11 @@ function loadData() {
     kho.forEach((item, index) => {
         let li = document.createElement("li");
 
-        li.innerHTML = `
-            <b>ID: ${item.id} - ${item.ten} - SL: ${item.sl} - Giá: ${item.gia}
-            <button onclick="xoaHang(${index})">Xóa</button>
-            <button onclick="xuatNhanh(${index})">Xuất</button>
-        `;
+       li.innerHTML = `
+    ID: ${item.id} - ${item.ten} - SL: ${item.sl} - Giá: ${item.gia}
+    <button onclick="xoaHang(${index})">Xóa</button>
+    <button onclick="xuatNhanh(${index})">Xuất</button>
+`;
 
         ds.appendChild(li);
     });
