@@ -110,24 +110,45 @@ function inHoaDon() {
     win.print();
 }
 
-// ===== HIỂN THỊ =====
 function loadData() {
     let kho = getKho();
 
-    let ds = document.getElementById("ds");
-    ds.innerHTML = "";
+    let tbody = document.querySelector("#ds tbody");
+    tbody.innerHTML = "";
 
     kho.forEach((item, index) => {
-        let li = document.createElement("li");
+        let tr = document.createElement("tr");
 
-        li.innerHTML = `
-            <b>ID:</b> ${item.id} | ${item.ten} | SL: ${item.sl} | Giá: ${item.gia}
-            <button onclick="xoaHang(${index})">Xóa</button>
-            <button onclick="xuatNhanh(${index})">Xuất</button>
+        tr.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.ten}</td>
+            <td>${item.sl}</td>
+            <td>${item.gia}</td>
+            <td>
+                <button onclick="themSL(${index})">+</button>
+                <button onclick="xuatNhanh(${index})">Xuất</button>
+                <button onclick="xoaHang(${index})">Xóa</button>
+            </td>
         `;
 
-        ds.appendChild(li);
+        tbody.appendChild(tr);
     });
+}
+
+function themSL(index) {
+    let kho = getKho();
+
+    let them = parseInt(prompt("Nhập số lượng thêm:"));
+
+    if (isNaN(them) || them <= 0) {
+        alert("Sai số lượng!");
+        return;
+    }
+
+    kho[index].sl += them;
+
+    saveKho(kho);
+    loadData();
 }
 
 // ===== CHẠY =====
