@@ -46,3 +46,43 @@ function loadData() {
 }
 
 loadData();
+function xuatHang() {
+    let ten = document.getElementById("maXuat").value;
+    let slXuat = parseInt(document.getElementById("slXuat").value);
+
+    let kho = JSON.parse(localStorage.getItem("kho")) || [];
+
+    let found = false;
+    let hoaDon = "";
+
+    kho.forEach(item => {
+        if (item.ten === ten) {
+            found = true;
+
+            if (slXuat <= item.sl) {
+                item.sl -= slXuat;
+
+                let tong = slXuat * item.gia;
+
+                hoaDon = `
+                    <h3>HÓA ĐƠN</h3>
+                    <p>Tên hàng: ${item.ten}</p>
+                    <p>Số lượng: ${slXuat}</p>
+                    <p>Giá: ${item.gia}</p>
+                    <p><b>Tổng tiền: ${tong}</b></p>
+                `;
+            } else {
+                alert("Không đủ hàng!");
+            }
+        }
+    });
+
+    if (!found) {
+        alert("Không tìm thấy hàng!");
+    }
+
+    localStorage.setItem("kho", JSON.stringify(kho));
+    document.getElementById("hoadon").innerHTML = hoaDon;
+
+    loadData();
+}
