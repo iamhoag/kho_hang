@@ -1,17 +1,18 @@
 function themHang() {
     let ten = document.getElementById("ten").value;
-    let sl = document.getElementById("sl").value;
-    let gia = document.getElementById("gia").value;
-
-    if (ten === "" || sl === "" || gia === "") {
-        alert("Nhập thiếu rồi kìa");
-        return;
-    }
+    let sl = parseInt(document.getElementById("sl").value);
+    let gia = parseFloat(document.getElementById("gia").value);
+    
+if (!ten || isNaN(sl) || isNaN(gia)) {
+    alert("Nhập thiếu hoặc sai!");
+    return;
+}
 
     let kho = JSON.parse(localStorage.getItem("kho")) || [];
 
-    kho.push({ten, sl, gia});
+    let id = Date.now(); // tạo id unique
 
+kho.push({id, ten, sl, gia});
     localStorage.setItem("kho", JSON.stringify(kho));
 
     loadData();
@@ -45,9 +46,8 @@ function loadData() {
     });
 }
 
-loadData();
 function xuatHang() {
-    let ten = document.getElementById("maXuat").value;
+    let id = parseInt(document.getElementById("idXuat").value);
     let slXuat = parseInt(document.getElementById("slXuat").value);
 
     let kho = JSON.parse(localStorage.getItem("kho")) || [];
@@ -56,7 +56,7 @@ function xuatHang() {
     let hoaDon = "";
 
     kho.forEach(item => {
-        if (item.ten === ten) {
+        if (item.id === id) {
             found = true;
 
             if (slXuat <= item.sl) {
@@ -66,6 +66,7 @@ function xuatHang() {
 
                 hoaDon = `
                     <h3>HÓA ĐƠN</h3>
+                    <p>ID: ${item.id}</p>
                     <p>Tên hàng: ${item.ten}</p>
                     <p>Số lượng: ${slXuat}</p>
                     <p>Giá: ${item.gia}</p>
