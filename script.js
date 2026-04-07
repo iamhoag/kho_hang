@@ -91,7 +91,7 @@ function loadData() {
         let li = document.createElement("li");
 
         li.innerHTML = `
-            <b>${item.ten}</b> - SL: ${item.sl} - Giá: ${item.gia}
+            <b>ID: ${item.id} - ${item.ten} - SL: ${item.sl} - Giá: ${item.gia}
             <button onclick="xoaHang(${index})">Xóa</button>
             <button onclick="xuatNhanh(${index})">Xuất</button>
         `;
