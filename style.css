@@ -39,3 +39,23 @@ li {
     margin-top: 10px;
     border: 2px dashed #333;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f2f2f2;
+}
