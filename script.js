@@ -3,9 +3,25 @@ function themHang() {
     let sl = document.getElementById("sl").value;
     let gia = document.getElementById("gia").value;
 
+    if (ten === "" || sl === "" || gia === "") {
+        alert("Nhập thiếu rồi kìa");
+        return;
+    }
+
     let kho = JSON.parse(localStorage.getItem("kho")) || [];
 
     kho.push({ten, sl, gia});
+
+    localStorage.setItem("kho", JSON.stringify(kho));
+
+    loadData();
+}
+
+function xoaHang(index) {
+    let kho = JSON.parse(localStorage.getItem("kho")) || [];
+
+    kho.splice(index, 1);
+
     localStorage.setItem("kho", JSON.stringify(kho));
 
     loadData();
@@ -17,9 +33,14 @@ function loadData() {
     let ds = document.getElementById("ds");
     ds.innerHTML = "";
 
-    kho.forEach(item => {
+    kho.forEach((item, index) => {
         let li = document.createElement("li");
-        li.innerText = `${item.ten} - SL: ${item.sl} - Giá: ${item.gia}`;
+
+        li.innerHTML = `
+            ${item.ten} - SL: ${item.sl} - Giá: ${item.gia}
+            <button onclick="xoaHang(${index})">Xóa</button>
+        `;
+
         ds.appendChild(li);
     });
 }
