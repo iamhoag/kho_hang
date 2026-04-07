@@ -1,27 +1,23 @@
-async function themHang() {
+function themHang() {
     let ten = document.getElementById("ten").value;
     let sl = document.getElementById("sl").value;
     let gia = document.getElementById("gia").value;
 
-    await fetch("http://127.0.0.1:5000/them", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ten, sl, gia})
-    });
+    let kho = JSON.parse(localStorage.getItem("kho")) || [];
+
+    kho.push({ten, sl, gia});
+    localStorage.setItem("kho", JSON.stringify(kho));
 
     loadData();
 }
 
-async function loadData() {
-    let res = await fetch("http://127.0.0.1:5000/ds");
-    let data = await res.json();
+function loadData() {
+    let kho = JSON.parse(localStorage.getItem("kho")) || [];
 
     let ds = document.getElementById("ds");
     ds.innerHTML = "";
 
-    data.forEach(item => {
+    kho.forEach(item => {
         let li = document.createElement("li");
         li.innerText = `${item.ten} - SL: ${item.sl} - Giá: ${item.gia}`;
         ds.appendChild(li);
