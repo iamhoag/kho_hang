@@ -1,4 +1,4 @@
-// ===== LOAD KHO =====
+// ===== STORAGE =====
 function getKho() {
     return JSON.parse(localStorage.getItem("kho")) || [];
 }
@@ -26,7 +26,7 @@ function themHang() {
 
     saveKho(kho);
 
-    // reset input cho đỡ bực
+    // reset input
     document.getElementById("ten").value = "";
     document.getElementById("sl").value = "";
     document.getElementById("gia").value = "";
@@ -44,7 +44,7 @@ function xoaHang(index) {
     loadData();
 }
 
-// ===== XUẤT NHANH (KHÔNG CẦN NHẬP ID) =====
+// ===== XUẤT HÀNG =====
 function xuatNhanh(index) {
     let kho = getKho();
 
@@ -66,18 +66,48 @@ function xuatNhanh(index) {
 
     let tong = slXuat * item.gia;
 
+    // ===== HÓA ĐƠN + NÚT PDF =====
     let hoaDon = `
-        <h3>HÓA ĐƠN</h3>
-        <p>Tên: ${item.ten}</p>
-        <p>Số lượng: ${slXuat}</p>
-        <p>Giá: ${item.gia}</p>
-        <p><b>Tổng tiền: ${tong}</b></p>
+        <div id="printArea">
+            <h2>HÓA ĐƠN</h2>
+            <p><b>ID:</b> ${item.id}</p>
+            <p><b>Tên:</b> ${item.ten}</p>
+            <p><b>Số lượng:</b> ${slXuat}</p>
+            <p><b>Giá:</b> ${item.gia}</p>
+            <p><b>Tổng tiền:</b> ${tong}</p>
+        </div>
+        <button onclick="inHoaDon()">Xuất PDF</button>
     `;
 
     document.getElementById("hoadon").innerHTML = hoaDon;
 
     saveKho(kho);
     loadData();
+}
+
+// ===== IN / XUẤT PDF =====
+function inHoaDon() {
+    let content = document.getElementById("printArea").innerHTML;
+
+    let win = window.open('', '', 'width=800,height=600');
+
+    win.document.write(`
+        <html>
+        <head>
+            <title>Hóa đơn</title>
+            <style>
+                body { font-family: Arial; padding: 20px; }
+                h2 { color: #333; }
+            </style>
+        </head>
+        <body>
+            ${content}
+        </body>
+        </html>
+    `);
+
+    win.document.close();
+    win.print();
 }
 
 // ===== HIỂN THỊ =====
@@ -90,11 +120,11 @@ function loadData() {
     kho.forEach((item, index) => {
         let li = document.createElement("li");
 
-       li.innerHTML = `
-    ID: ${item.id} - ${item.ten} - SL: ${item.sl} - Giá: ${item.gia}
-    <button onclick="xoaHang(${index})">Xóa</button>
-    <button onclick="xuatNhanh(${index})">Xuất</button>
-`;
+        li.innerHTML = `
+            <b>ID:</b> ${item.id} | ${item.ten} | SL: ${item.sl} | Giá: ${item.gia}
+            <button onclick="xoaHang(${index})">Xóa</button>
+            <button onclick="xuatNhanh(${index})">Xuất</button>
+        `;
 
         ds.appendChild(li);
     });
